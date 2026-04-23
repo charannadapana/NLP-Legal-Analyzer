@@ -1,17 +1,27 @@
 SUGGESTIONS = {
-    "Termination Clause": "Either party may terminate this agreement with 30 days notice.",
-    "Confidentiality Clause": "Both parties agree not to disclose confidential information.",
-    "Payment Terms": "Payment must be made within 30 days of invoice."
+    "Termination Clause": "Add clear termination conditions and notice period.",
+    "Confidentiality Clause": "Define duration and scope of confidentiality obligations.",
+    "Payment Terms": "Include penalties for late payments and payment methods.",
+    "Liability Clause": "Limit liability to a specific amount to reduce risk.",
+    "Governing Law": "Clearly specify jurisdiction to avoid legal ambiguity."
 }
 
 def suggest_clauses(detected):
-    missing = []
+    suggestions = []
 
-    for clause, text in SUGGESTIONS.items():
-        if clause not in detected:
-            missing.append({
+    for clause in detected:
+        if clause in SUGGESTIONS:
+            suggestions.append({
                 "clause": clause,
-                "suggestion": text
+                "suggestion": SUGGESTIONS[clause]
             })
 
-    return missing
+    # Optional: also suggest missing important clauses
+    for clause in SUGGESTIONS:
+        if clause not in detected:
+            suggestions.append({
+                "clause": clause,
+                "suggestion": f"Consider adding a {clause.lower()} to strengthen the agreement."
+            })
+
+    return suggestions
